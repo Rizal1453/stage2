@@ -1,0 +1,30 @@
+
+
+.bg-orens{
+    background-color: #FFC700;
+  
+}
+.w-category{
+    width: 200px;
+    height: 80px !important;
+
+}
+.color-orens{
+    color: #FFC700;
+}
+body{
+    background-color: #e6e6e6 !important;
+}
+.bg-brown{
+    background-color: #433434 !important;
+}
+.text-brown{
+    color: #433434;
+}
+.bcategory{
+    width: 260px !important;
+}
+.w-list{
+    width: 400px;
+    
+}
