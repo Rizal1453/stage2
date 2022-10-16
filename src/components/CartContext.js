@@ -4,6 +4,8 @@ export const CartContext = createContext();
 
 const initialState = {
   cart: 0,
+  bensu: 0,
+  keju: 0,
   nama : "",
   email : "",
   phone : 0,
@@ -17,16 +19,16 @@ const reducer = (_, action) => {
     case "ADD_TO_CART":
       return {
         cart: payload,
+        bensu: payload,
       };
     case "CLEAR_CART":
       return {
         cart: 0,
       };
-      case "UDATE_DATA":
+      case "UPDATE_DATA":
       return {
-        nama: payload,
-        email: payload,
-        phone: payload,
+        cart : payload,
+        keju: payload,
       };
     case "CLEAR_DATA":
       return {

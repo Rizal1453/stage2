@@ -2,7 +2,7 @@
 export const duser = [
     {
         name : "John Doe",
-        email : "1@mail.com",
+        email : "admin@mail.com",
         password : "123456",
         role : "admin",
     },

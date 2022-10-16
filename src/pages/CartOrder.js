@@ -10,10 +10,25 @@ import { CartContext } from "../components/CartContext";
 const CartOrder = () => {
   const [dataCart, dispatch] = useContext(CartContext);
   const [counter, setCounter] = useState(dataCart.cart);
+  const [keju, setkeju] = useState(dataCart.cart);
   console.log(dataCart);
+  console.log(dataCart.bensu);
+  console.log(keju);
+
+
+
+  const kejucart = () => {
+    setkeju(keju + 1);
+    
+    dispatch({
+      type: "UPDATE_DATA",
+      payload: keju,
+    });
+  };
 
   const addCart = () => {
-    setCounter(dataCart.cart + 1);
+    setCounter(counter + 1);
+    
     dispatch({
       type: "ADD_TO_CART",
       payload: counter,
@@ -53,7 +68,7 @@ const CartOrder = () => {
 
                 <div className="d-flex justify-content-between">
                   <div className=" d-flex ms-3">
-                    <span>➖</span> <p className="mx-2">{dataCart.cart}</p>
+                    <span>➖</span> <p className="mx-2">{dataCart.bensu}</p>
                     <span onClick={addCart}>➕</span>
                   </div>
                   <div>
@@ -92,8 +107,8 @@ const CartOrder = () => {
 
                 <div className="d-flex justify-content-between ms-3">
                   <div className=" d-flex">
-                    <span>➖</span> <p className="mx-2">1</p>
-                    <span>➕</span>
+                    <span>➖</span> <p className="mx-2">{dataCart.keju}</p>
+                    <span onClick={kejucart}>➕</span>
                   </div>
                   <div>
                     <img src={tong} alt="" />
