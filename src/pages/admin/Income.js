@@ -1,86 +1,68 @@
-import React from 'react'
-import { Container, Table, Button } from "react-bootstrap";
-import success from "../../components/assets/images/succes.png";
-import cancel from "../../components/assets/images/cancel.png";
+import React, { useContext, useEffect, useState } from "react";
+import { Container, Table } from "react-bootstrap";
+import NavbarComponent from "../../components/NavbarComponent";
+import { API } from "../../config/api";
 
 const Income = () => {
+  const[loading,setLoading] = useState (true)
+
+  const [transaction, setTransaction] = useState([]);
+  const getTransaction = async () => {
+    try {
+      const response = await API.get("/ftransaction");
+      setTransaction(response.data.data)
+      setLoading(false)
+    } catch (error) {
+
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getTransaction();
+  }, []);
+
+
   return (
     <div>
-    <Container >
-    <h2 className="mt-5">Income Transaction</h2>
-      <Table className="border border-2 my-5" bordered hover responsive>
-        <thead style={{ backgroundColor: "#E5E5E5" }}>
-          <tr>
-            <th>No</th>
-            <th>Name</th>
-            <th>Address</th>
-            <th>Products Order</th>
-            <th>Status</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody className='shadow bg-light'>
-            <tr>
-              <td>1</td>
-              <td>Sugeng No Pants</td>
-              <td>Cileungsi</td>
-              <td>Pkaket Geprek, Paket ke..</td>
-              <td className="d-flex text-warning justify-content-center">Waiting Approve</td>
-              <td>
-                <div className="d-flex justify-content-center">
-                  <Button
-                    variant="danger"
-                    size="sm"
-                    className="btn-table1 me-3"
-                  >
-                    Cancel
-                  </Button>
-                  <Button variant="success" size="sm" className="btn-table2">
-                    Approve
-                  </Button>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>Sugeng No Pants</td>
-              <td>Cileungsi</td>
-              <td>Pkaket Geprek, Paket ke..</td>
-              <td className="d-flex text-success justify-content-center">Success</td>
-              <td>
-                <div className="d-flex text-success justify-content-center">
-                  <img src={success} />
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>Sugeng No Pants</td>
-              <td>Cileungsi</td>
-              <td>Pkaket Geprek, Paket ke..</td>
-              <td className="d-flex text-danger justify-content-center">Cancel</td>
-              <td>
-                <div className="d-flex text-success justify-content-center">
-                  <img src={cancel} />
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>4</td>
-              <td>Sugeng No Pants</td>
-              <td>Cileungsi</td>
-              <td>Pkaket Geprek, Paket ke..</td>
-              <td className="d-flex justify-content-center" style={{ color: '#00D1FF' }}>Success</td>
-              <td>
-                <div className="d-flex text-success justify-content-center">
-                  <img src={success} />
-                </div>
-              </td>
-            </tr>
-        </tbody>
-      </Table>
-    </Container></div>
-  )
-}
+      <NavbarComponent />
+      {loading?(<h2> Loading ..</h2>):(
+      <Container>
 
-export default Income
+        <h2 className="mt-5 text-white">Incoming Transaction</h2>
+        <Table className="border border-2 my-5" bordered hover responsive>
+        <thead style={{ backgroundColor: "#E5E5E5" }}>
+        <tr>
+        <th>No</th>
+        <th>Users</th>
+        <th>Bukti Transfer</th>
+              <th>Remaining Active</th>
+              <th>Status User</th>
+              </tr>
+              </thead>
+              <tbody className="shadow bg-light">
+              {transaction?.map((item, index) => (
+                <tr>
+                <td>{index + 1}</td>
+                <td>{item.user.fullname}</td>
+                <td>{}</td>
+                <td>{item.StatusUser}.</td>
+                <td
+                className={
+                  item.StatusUser == "No Active"
+                  ? "d-flex text-warning justify-content-center"
+                  : "text-success d-flex justify-content-center"
+                  }
+                >
+                  {item.status}
+                </td>
+                </tr>
+                ))}
+                </tbody>
+                </Table>
+                </Container>
+                )}
+                </div>
+                );
+              };
+              
+export default Income;

@@ -1,19 +1,16 @@
 import Hero from "../components/Hero";
-import Category from "../components/Category";
-import Restoran from "./Restoran";
+import Playlist from "../components/Playlist";
+
 import { useContext } from "react";
 import { CartContext } from "../components/CartContext";
+import NavbarComponent from "../components/NavbarComponent";
 
 function Landing() {
- 
-
-  
-
   return (
-    <div>
+    <div className="myBG">
+      <NavbarComponent />
       <Hero />
-      <Category />
-      <Restoran />
+      <Playlist />
     </div>
   );
 }

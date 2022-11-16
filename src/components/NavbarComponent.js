@@ -1,75 +1,84 @@
 import React, { useContext, useState } from "react";
-import user from "./assets/images/user.png";
-import burger from "./assets/images/burger.png";
-import iconout from "./assets/images/logout.png";
-import bucket from "./assets/images/buckets.png";
+import music from "./assets/images/music.png";
+import artis from "./assets/images/artis.png";
+import iconout from "./assets/images/logoutdrop.png";
+import walet from "./assets/images/bill.png";
 import vector from "./assets/images/vector.png";
 
-import {
-  Navbar,
-  Nav,
-  Container,
-  NavbarBrand,
-  Dropdown,
-  Badge,
-} from "react-bootstrap";
-import logo from "../components/assets/images/logo.png";
+import { Navbar, Nav, Container, NavbarBrand, Dropdown } from "react-bootstrap";
+import logo from "../components/assets/images/logosound.png";
 import { useNavigate } from "react-router-dom";
 import Gbuton from "./Button";
 import Login from "./Login";
 import Regist from "./Regist";
-import { CartContext } from "./CartContext";
 
+import { LoginContext } from "./LoginContext";
 
 const NavbarComponent = () => {
+  const [state, dispatch] = useContext(LoginContext);
+  const loginsukses = state.isLogin;
+
+  console.log(loginsukses);
+
+
   const [showLogin, setShowLogin] = useState(false);
   const [showRegist, setRegist] = useState(false);
-  const [islogin, setIslogin] = useState(false);
+
   const navigate = useNavigate();
-  const [dataCart] = useContext(CartContext);
+
   // data user
-  const [userRole, setUserRole] = useState("");
-  
+
+  const logout = () => {
+    dispatch({
+      type: "LOGOUT",
+    });
+    navigate("/");
+  };
+
   return (
-    <div>
-      <Navbar className="bg-orens">
+    <div className="position static transparent bg-opacity">
+      <Navbar>
         <Container>
-          <NavbarBrand onClick={() => navigate("/")}>
+          <NavbarBrand onClick={() => navigate("/income")}>
             <img src={logo} alt="" />
           </NavbarBrand>
 
           <Nav>
-            {!islogin ? (
+            {state.user.role === "user" ? (
               <div>
-                <Gbuton
-                  text="Register"
-                  size="text-white py-2 px-5 rounded-2 me-2"
-                  onclick={() => setRegist(true)}
-                />
-                <Gbuton
-                  text="Login"
-                  size="text-white py-2 px-5 rounded-2"
-                  onclick={() => setShowLogin(true)}
-                />
-              </div>
-            ) : userRole === "admin" ? (
-              <div className="">
                 <Dropdown>
                   <Dropdown.Toggle variant="yellow" id="dropdown-basic">
                     <img src={vector} alt="" />
                   </Dropdown.Toggle>
 
-                  <Dropdown.Menu>
-                    <Dropdown.Item onClick={() => navigate("/profile-partner")} >
-                     
-                        <img src={user} alt="" /> Profile Partner
-                  
-                    </Dropdown.Item>
-                    <Dropdown.Item onClick={() => navigate("/add-product")}>
-                      <img src={burger} alt="" /> Add Productt
+                  <Dropdown.Menu className="bg-card">
+                    <Dropdown.Item onClick={() => navigate("/pay")}>
+                      <img src={walet} alt="" /> Pay
                     </Dropdown.Item>
                     <Dropdown.Divider />
-                    <Dropdown.Item onClick={() => setIslogin(false)}>
+                    <Dropdown.Item onClick={logout}>
+                      {" "}
+                      <img src={iconout} alt="" /> Logout
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </div>
+            ) : state.user.role === "admin" ? (
+              <div>
+                <Dropdown>
+                  <Dropdown.Toggle variant="yellow" id="dropdown-basic">
+                    <img src={vector} alt="" />
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu className="bg-card">
+                    <Dropdown.Item onClick={() => navigate("/add-music")}>
+                      <img src={music} alt="" /> Add Music
+                    </Dropdown.Item>
+                    <Dropdown.Item onClick={() => navigate("/add-artis")}>
+                      <img src={artis} alt="" /> Add Artis
+                    </Dropdown.Item>
+                    <Dropdown.Divider />
+                    <Dropdown.Item onClick={logout}>
                       {" "}
                       <img src={iconout} alt="" /> Logout
                     </Dropdown.Item>
@@ -78,31 +87,16 @@ const NavbarComponent = () => {
               </div>
             ) : (
               <div>
-                <Dropdown>
-                  <img
-                    onClick={() => navigate("/cart-order")}
-                    src={bucket}
-                    alt=""
-                  />
-                  <Badge className="bg-danger">
-                    {" "}
-                    {dataCart.cart}{" "}
-                  </Badge>
-                  <Dropdown.Toggle variant="yellow" id="dropdown-basic">
-                    <img src={vector} alt="" />
-                  </Dropdown.Toggle>
-
-                  <Dropdown.Menu>
-                    <Dropdown.Item onClick={() => navigate("/profile-partner")}>
-                      <img src={user} alt="" /> Profile Partner
-                    </Dropdown.Item>
-                    <Dropdown.Divider />
-                    <Dropdown.Item onClick={() => setIslogin(false)}>
-                      {" "}
-                      <img src={iconout} alt="" /> Logout
-                    </Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
+                <Gbuton
+                  text="Register"
+                  size="text-white py-2 px-5 rounded-2 me-2"
+                  onClick={() => setRegist(true)}
+                />
+                <Gbuton
+                  text="Login"
+                  size="text-white py-2 px-5 rounded-2"
+                  onClick={() => setShowLogin(true)}
+                />
               </div>
             )}
           </Nav>
@@ -111,10 +105,13 @@ const NavbarComponent = () => {
         <Login
           showLogin={showLogin}
           setShowLogin={setShowLogin}
-          setIslogin={setIslogin}
-          setUserRole={setUserRole}
+          setRegist={setRegist}
         />
-        <Regist showRegist={showRegist} setRegist={setRegist} />
+        <Regist
+          showRegist={showRegist}
+          setRegist={setRegist}
+          setshowLogin={setShowLogin}
+        />
       </Navbar>
     </div>
   );

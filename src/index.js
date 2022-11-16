@@ -5,13 +5,22 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-
+import { QueryClient, QueryClientProvider } from "react-query";
+import { LoginContext, LoginContextProvider } from "./components/LoginContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
+const client = new QueryClient();
+
 root.render(
   <React.StrictMode>
-  <App />
+    
+  <LoginContextProvider>
+      <QueryClientProvider client={client}>
+          <App />
+          </QueryClientProvider>
+    </LoginContextProvider>
+   
   </React.StrictMode>
 );
 
